@@ -19,8 +19,9 @@ MoveToSkill::MoveToSkill(const std::string& name,
 bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
 {
   int scaling;
+  float acceleration_scaling_factor, velocity_scaling_factor;
   bool simulation;
-  std::string fjt_action_name, action_name, group_name, ik_service_name, location_name, speed_scaling_topic;
+  std::string fjt_action_name, action_name, group_name, ik_service_name, location_name, speed_scaling_topic, pipeline_id, planner_id;
 
   // Get required parameters
   std::string w;
@@ -31,6 +32,10 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   bt_executer::utils::get_param(node_.lock().get(), ns_, "/fjt_action_name", fjt_action_name, w);
   bt_executer::utils::get_param(node_.lock().get(), ns_, "/speed_scaling_topic", speed_scaling_topic, w);
   bt_executer::utils::get_param(node_.lock().get(), ns_, "/scaling", scaling, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/pipeline_id", pipeline_id, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/planner_id", planner_id, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/acceleration_scaling_factor", acceleration_scaling_factor, w);
+  bt_executer::utils::get_param(node_.lock().get(), ns_, "/velocity_scaling_factor", velocity_scaling_factor, w);
 
   // Get queried location
   int iter = 0;
@@ -60,6 +65,9 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Transform:\n"<<geometry_msgs::msg::to_yaml(transform));
   RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Pose:\n"<<geometry_msgs::msg::to_yaml(pose));
 
+//  pose.header.frame_id="bla";
+//  pose.pose.position.x=0.2;
+
   goal.group_name = group_name;
   goal.ik_service_name = ik_service_name;
   goal.simulation = simulation;
@@ -67,6 +75,12 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   goal.speed_scaling_topic = speed_scaling_topic;
   goal.scaling = scaling;
   goal.pose = pose;
+  goal.pipeline_id = pipeline_id;  // IMPORT FROM PARAM
+  goal.planner_id = planner_id; // IMPORT FROM PARAM  (BiTRRT)
+  goal.acceleration_scaling_factor = acceleration_scaling_factor; // IMPORT FROM PARAM
+  goal.velocity_scaling_factor = velocity_scaling_factor; // IMPORT FROM PARAM
+
+
 
   RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Goal:\n"<<
                      " group_name = " << goal.group_name <<
@@ -74,7 +88,11 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
                      " simulation = " << goal.simulation <<
                      " fjt_action_name = " << goal.fjt_action_name <<
                      " speed_scaling_topic = " << goal.speed_scaling_topic <<
-                     " scaling = " << goal.scaling );
+                     " scaling = " << goal.scaling <<
+                     " pipeline_id = " << goal.pipeline_id <<
+                     " planner_id = " << goal.planner_id <<
+                     " acceleration_scaling_factor = " << goal.acceleration_scaling_factor <<
+                     " velocity_scaling_factor = " << goal.velocity_scaling_factor);
   return true;
 }
 

@@ -1,7 +1,7 @@
 bt_executer: #do not change or remove the parameter namespace
   plugins: ["trajectory_loader_plugin", "move_to_plugin",
    "trigger_service_plugin", "set_bool_service_plugin",
-    "gpio_sequence_write_service_plugin", "wait_plugin"] #list of plugins you will need in your tree
+    "gpio_sequence_write_service_plugin", "wait_plugin", "check_touch_service_plugin","store_actual_position_plugin","object_detection_plugin","store_actual_position_and_compute_delta_plugin","compute_and_publish_center_plugin"] #list of plugins you will need in your tree
   bt_package: "bt_executer" # name of the package where the tree is located
   bt_name: "main_tree.xml" # name of the tree file
 

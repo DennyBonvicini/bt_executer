@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(behaviortree_ros2 REQUIRED)
@@ -20,6 +21,10 @@ find_package(trajectory_loader REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(control_msgs REQUIRED)
+find_package(force_sensor REQUIRED)
+find_package(yolov8 REQUIRED)
+find_package(tf REQUIRED)
 
 set(EXECUTER_DEPS
     cnr_param::cnr_param
@@ -39,6 +44,11 @@ set(SKILL_LIBRARY_DEPS
     tf2
     tf2_ros
     std_srvs
+    control_msgs
+    rclcpp_action
+    force_sensor
+    yolov8
+    tf
     )
 
 # =====
@@ -100,6 +110,72 @@ target_include_directories(wait_plugin PUBLIC
     )
 ament_target_dependencies(wait_plugin ${SKILL_LIBRARY_DEPS})
 
+add_library(check_touch_service_plugin SHARED
+  src/skills/check_touch_service_skill.cpp
+	)
+target_link_libraries(check_touch_service_plugin ${EXECUTER_DEPS})	
+target_compile_definitions(check_touch_service_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(check_touch_service_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(check_touch_service_plugin ${SKILL_LIBRARY_DEPS})
+
+add_library(store_actual_position_plugin SHARED
+    src/skills/store_actual_position_skill.cpp
+    )
+target_link_libraries(store_actual_position_plugin ${EXECUTER_DEPS})
+target_compile_definitions(store_actual_position_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(store_actual_position_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(store_actual_position_plugin ${SKILL_LIBRARY_DEPS})
+
+add_library(object_detection_plugin SHARED
+    src/skills/object_detection_skill.cpp
+    )
+target_link_libraries(object_detection_plugin ${EXECUTER_DEPS})
+target_compile_definitions(object_detection_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(object_detection_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(object_detection_plugin ${SKILL_LIBRARY_DEPS})
+
+add_library(store_actual_position_and_compute_delta_plugin SHARED
+    src/skills/store_actual_position_and_compute_delta_skill.cpp
+    )
+target_link_libraries(store_actual_position_and_compute_delta_plugin ${EXECUTER_DEPS})
+target_compile_definitions(store_actual_position_and_compute_delta_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(store_actual_position_and_compute_delta_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(store_actual_position_and_compute_delta_plugin ${SKILL_LIBRARY_DEPS})
+
+add_library(tf_publish_service_plugin SHARED
+    src/skills/tf_publish_service_skill.cpp
+    )
+target_link_libraries(tf_publish_service_plugin ${EXECUTER_DEPS})
+target_compile_definitions(tf_publish_service_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(tf_publish_service_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(tf_publish_service_plugin ${SKILL_LIBRARY_DEPS})
+
+add_library(compute_and_publish_center_plugin SHARED
+    src/skills/compute_and_publish_center_skill.cpp
+    )
+target_link_libraries(compute_and_publish_center_plugin ${EXECUTER_DEPS})
+target_compile_definitions(compute_and_publish_center_plugin PRIVATE  BT_PLUGIN_EXPORT)
+target_include_directories(compute_and_publish_center_plugin PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    )
+ament_target_dependencies(compute_and_publish_center_plugin ${SKILL_LIBRARY_DEPS})
+
 # Build the skill executer node
 add_executable(bt_executer_node
     src/bt_executer_node.cpp
@@ -115,6 +191,12 @@ install(TARGETS
     trajectory_loader_plugin
     trigger_service_plugin
     set_bool_service_plugin
+    check_touch_service_plugin
+    store_actual_position_plugin
+    object_detection_plugin
+    store_actual_position_and_compute_delta_plugin
+    tf_publish_service_plugin
+    compute_and_publish_center_plugin
     wait_plugin
     bt_executer_node
     DESTINATION lib/${PROJECT_NAME}

@@ -21,6 +21,10 @@
   <depend>std_srvs</depend>
   <depend>geometry_msgs</depend>
   <depend>trajectory_loader</depend>
+  <depend>control_msgs</depend>
+  <depend>force_sensor</depend>
+  <depend>yolov8</depend>
+  <depend>tf</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

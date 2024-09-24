@@ -132,7 +132,7 @@ int main(int argc, char ** argv)
 
     BT::RosNodeParams params;
     params.nh = nh;
-    params.server_timeout = std::chrono::milliseconds(1000000000000000);
+    params.server_timeout = std::chrono::milliseconds(10000000000000000);
     params.wait_for_server_timeout = std::chrono::milliseconds(10000);
 
     RCLCPP_INFO_STREAM(node->get_logger(),"Path to plugin loaded "<<path_to_plugin);

@@ -29,7 +29,7 @@ BT::NodeStatus ComputeAndPublishCenter::onResponseReceived(const Response::Share
         }
         else
         {
-            RCLCPP_ERROR_STREAM(node_.lock()->get_logger(), "Failed to publish TFs.");
+            RCLCPP_ERROR_STREAM(node_.lock()->get_logger(), "Failed to publish Centered Screw TF.");
             return BT::NodeStatus::FAILURE;
         }
 }

@@ -4,7 +4,6 @@
 #include <control_msgs/msg/dynamic_joint_state.hpp>
 #include <control_msgs/msg/interface_value.hpp>
 #include <chrono>
-//#include <unordered_map>
 
 using DynamicJointState = control_msgs::msg::DynamicJointState;
 using InterfaceValue = control_msgs::msg::InterfaceValue; //usato per ricostruire il messaggio da stampare in output
@@ -46,23 +45,23 @@ void StoreActualPositionNodeAndComputeDelta::previousPositionCallback(const Inte
         previous_positions_[i] = msg->values[i];
         
         //debug
-        RCLCPP_INFO(node_.lock()->get_logger(), "Posizione_prec giunto %zu : %f", i, msg->values[i]);
+        //RCLCPP_INFO(node_.lock()->get_logger(), "Posizione_prec giunto %zu : %f", i, msg->values[i]);
     }
 
-    RCLCPP_INFO(node_.lock()->get_logger(), "Posizioni precedenti aggiornate");  
+    //RCLCPP_INFO(node_.lock()->get_logger(), "Posizioni precedenti aggiornate");
 }
 
 // Callback per il subscriber a /cartesian_position
 void StoreActualPositionNodeAndComputeDelta::cartesianPositionCallback(const geometry_msgs::msg::Pose::SharedPtr msg)
 {
-        previous_x = msg->position.x;
-        previous_y = msg->position.y;
-        previous_z = msg->position.z;
+    previous_x = msg->position.x;
+    previous_y = msg->position.y;
+    previous_z = msg->position.z;
 
-        //debug
-        RCLCPP_INFO(node_.lock()->get_logger(), "Posizione_prec x: %f, y: %f ,z: %f", previous_x, previous_y, previous_z);
+    //debug
+    RCLCPP_INFO(node_.lock()->get_logger(), "Posizione_prec x: %f, y: %f ,z: %f", previous_x, previous_y, previous_z);
 
-    RCLCPP_INFO(node_.lock()->get_logger(), "Posizioni precedenti aggiornate");
+    //RCLCPP_INFO(node_.lock()->get_logger(), "Posizioni precedenti aggiornate");
 }
 
 
@@ -125,7 +124,16 @@ BT::NodeStatus StoreActualPositionNodeAndComputeDelta::onTick(const std::shared_
             
 
             // Stampa tutto il messaggio in una sola volta, più leggibile su terminale
-            RCLCPP_INFO(node_.lock()->get_logger(), "%s", full_msg.c_str());
+            //RCLCPP_INFO(node_.lock()->get_logger(), "%s", full_msg.c_str());
+
+            // Stampa il messaggio in output con più chiamate a RCLCPP_INFO
+            /*RCLCPP_INFO(node_.lock()->get_logger(), "[%s] Stato attuale dei giunti KUKA:", name().c_str());
+            for (size_t i = 0; i < kuka_joint_msg.interface_names.size(); ++i)
+            {
+                RCLCPP_INFO(node_.lock()->get_logger(), "Nome giunto: %s, Posizione: %f",
+                            kuka_joint_msg.interface_names[i].c_str(),
+                            kuka_joint_msg.values[i]);
+            }*/
             
             
             // CALCOLO DELTA PER JOINT POSITION
@@ -149,17 +157,10 @@ BT::NodeStatus StoreActualPositionNodeAndComputeDelta::onTick(const std::shared_
                 delta_str += std::to_string(value) + " ";
             }
 
-            RCLCPP_INFO(node_.lock()->get_logger(), "%s", delta_str.c_str());
+            //RCLCPP_INFO(node_.lock()->get_logger(), "%s", delta_str.c_str());
 
-            // Stampa il messaggio in output con più chiamate a RCLCPP_INFO
-            /*RCLCPP_INFO(node_.lock()->get_logger(), "[%s] Stato attuale dei giunti KUKA:", name().c_str());
-            for (size_t i = 0; i < kuka_joint_msg.interface_names.size(); ++i)
-            {
-                RCLCPP_INFO(node_.lock()->get_logger(), "Nome giunto: %s, Posizione: %f",
-                            kuka_joint_msg.interface_names[i].c_str(),
-                            kuka_joint_msg.values[i]);
-            }*/
 
+            //##########################################
             // CALCOLO DELTA PER CARTESIAN POSITION
 
             // Acquisizione della trasformazione tra 'world' e 'kuka_sensor'
@@ -181,15 +182,14 @@ BT::NodeStatus StoreActualPositionNodeAndComputeDelta::onTick(const std::shared_
             pose_msg.position.z = transformStamped.transform.translation.z;
 
             // Logging della posizione cartesiana
-            RCLCPP_INFO(node_.lock()->get_logger(), "Pubblicata posizione cartesiana: [x: %f, y: %f, z: %f]",
+            RCLCPP_INFO(node_.lock()->get_logger(), "Pubblicata nuova posizione cartesiana: [x: %f, y: %f, z: %f]",
                         pose_msg.position.x, pose_msg.position.y, pose_msg.position.z);
 
             double delta_x = std::abs(pose_msg.position.x - previous_x);
             double delta_y = std::abs(pose_msg.position.y - previous_y);
             double delta_z = std::abs(pose_msg.position.z - previous_z);
 
-            RCLCPP_INFO(node_.lock()->get_logger(), "delta cartesiani: [delta_x: %f, delta_y: %f, delta_z: %f]",
-                        delta_x, delta_y, delta_z);
+            //RCLCPP_INFO(node_.lock()->get_logger(), "delta cartesiani: [delta_x: %f, delta_y: %f, delta_z: %f]",delta_x, delta_y, delta_z);
 
             // Trova il valore massimo
             double max_delta = std::max({(delta_x), (delta_y), (delta_z)});

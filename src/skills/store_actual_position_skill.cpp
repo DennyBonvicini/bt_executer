@@ -39,17 +39,13 @@ BT::NodeStatus StoreActualPositionNode::onTick(const std::shared_ptr<DynamicJoin
 
     RCLCPP_INFO(node_shared->get_logger(), "Messaggio ricevuto, elaborazione in corso...");
 
-    // Ri-inizializza il TF buffer e listener
-    //tf_buffer_ = std::make_unique<tf2_ros::Buffer>(node_.lock()->get_clock());
-    //tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+    //RCLCPP_INFO(node_.lock()->get_logger(), "QUI");
 
-    RCLCPP_INFO(node_.lock()->get_logger(), "QUI");
-
-    RCLCPP_INFO(node_.lock()->get_logger(), "Verifica last_msg: %p", last_msg.get());
+    //RCLCPP_INFO(node_.lock()->get_logger(), "Verifica last_msg: %p", last_msg.get());
 
     if(last_msg)
     {
-        RCLCPP_INFO(node_.lock()->get_logger(), "QUI QUI");
+        //RCLCPP_INFO(node_.lock()->get_logger(), "QUI QUI");
 
         // Vettore di coppie per memorizzare i nomi e le posizioni dei giunti KUKA
         std::vector<std::pair<std::string, double>> kuka_joint_positions;
@@ -108,7 +104,7 @@ BT::NodeStatus StoreActualPositionNode::onTick(const std::shared_ptr<DynamicJoin
             }
 
             // Stampa tutto il messaggio in una sola volta, più leggibile su terminale
-            RCLCPP_INFO(node_.lock()->get_logger(), "%s", full_msg.c_str());
+            //RCLCPP_INFO(node_.lock()->get_logger(), "%s", full_msg.c_str());
 
             // Stampa il messaggio in output con più chiamate a RCLCPP_INFO
             /*RCLCPP_INFO(node_.lock()->get_logger(), "[%s] Stato attuale dei giunti KUKA:", name().c_str());
@@ -148,7 +144,7 @@ BT::NodeStatus StoreActualPositionNode::onTick(const std::shared_ptr<DynamicJoin
             return BT::NodeStatus::SUCCESS;
         }
     }
-    RCLCPP_INFO(node_.lock()->get_logger(), "QUI QUI QUI");
+    //RCLCPP_INFO(node_.lock()->get_logger(), "QUI QUI QUI");
 
     return BT::NodeStatus::FAILURE;
 }

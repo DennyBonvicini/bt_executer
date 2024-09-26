@@ -192,7 +192,10 @@ BT::NodeStatus StoreActualPositionNodeAndComputeDelta::onTick(const std::shared_
             //RCLCPP_INFO(node_.lock()->get_logger(), "delta cartesiani: [delta_x: %f, delta_y: %f, delta_z: %f]",delta_x, delta_y, delta_z);
 
             // Trova il valore massimo
-            double max_delta = std::max({(delta_x), (delta_y), (delta_z)});
+
+
+            //double max_delta = std::max({(delta_x), (delta_y), (delta_z)});
+            double max_delta = std::sqrt(std::pow(delta_x,2.0)+std::pow(delta_y,2.0)+std::pow(delta_z,2.0));
 
             std_msgs::msg::Float64 delta_cartesian_msg;
             delta_cartesian_msg.data = max_delta;

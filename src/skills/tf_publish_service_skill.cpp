@@ -39,7 +39,7 @@ bool TfPublishSkill::setRequest(Request::SharedPtr& request)
         right_transform.header.stamp = this->now();
         right_transform.header.frame_id = "screw_frame";
         right_transform.child_frame_id = "right_frame";
-        right_transform.transform.translation.x = 0.05;
+        right_transform.transform.translation.x = 0.1;
         right_transform.transform.translation.y = 0.0;
         right_transform.transform.translation.z = 0.0; //ricordarsi di cambiare: valore che serve oer non andare in collisione su Rviz
         right_transform.transform.rotation.x = 0.0;
@@ -54,7 +54,7 @@ bool TfPublishSkill::setRequest(Request::SharedPtr& request)
         left_transform.header.stamp = this->now();
         left_transform.header.frame_id = "screw_frame";
         left_transform.child_frame_id = "left_frame";
-        left_transform.transform.translation.x = -0.05;
+        left_transform.transform.translation.x = -0.1;
         left_transform.transform.translation.y = 0.0;
         left_transform.transform.translation.z = 0.0; //ricordarsi di cambiare: valore che serve oer non andare in collisione su Rviz
         left_transform.transform.rotation.x = 0.0;
@@ -70,7 +70,7 @@ bool TfPublishSkill::setRequest(Request::SharedPtr& request)
         up_transform.header.frame_id = "screw_frame";
         up_transform.child_frame_id = "up_frame";
         up_transform.transform.translation.x = 0.0;
-        up_transform.transform.translation.y = -0.05;
+        up_transform.transform.translation.y = -0.1;
         up_transform.transform.translation.z = 0.0; //ricordarsi di cambiare: valore che serve oer non andare in collisione su Rviz
         up_transform.transform.rotation.x = 0.0;
         up_transform.transform.rotation.y = 0.0;
@@ -85,7 +85,7 @@ bool TfPublishSkill::setRequest(Request::SharedPtr& request)
         down_transform.header.frame_id = "screw_frame";
         down_transform.child_frame_id = "down_frame";
         down_transform.transform.translation.x = 0.0;
-        down_transform.transform.translation.y = 0.05;
+        down_transform.transform.translation.y = 0.1;
         down_transform.transform.translation.z = 0.0; //ricordarsi di cambiare: valore che serve oer non andare in collisione su Rviz
         down_transform.transform.rotation.x = 0.0;
         down_transform.transform.rotation.y = 0.0;

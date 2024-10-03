@@ -26,7 +26,7 @@ bool TfPublishSkill::setRequest(Request::SharedPtr& request)
         approach_transform.child_frame_id = "screw_approach_frame";
         approach_transform.transform.translation.x = 0.0;
         approach_transform.transform.translation.y = 0.0;
-        approach_transform.transform.translation.z = -0.3; //ricordarsi di cambiare: valore che serve oer non andare in collisione su Rviz
+        approach_transform.transform.translation.z = -0.3; 
         approach_transform.transform.rotation.x = 0.0;
         approach_transform.transform.rotation.y = 0.0;
         approach_transform.transform.rotation.z = 0.0;
@@ -41,7 +41,7 @@ bool TfPublishSkill::setRequest(Request::SharedPtr& request)
         right_transform.child_frame_id = "right_frame";
         right_transform.transform.translation.x = 0.1;
         right_transform.transform.translation.y = 0.0;
-        right_transform.transform.translation.z = 0.0; //ricordarsi di cambiare: valore che serve oer non andare in collisione su Rviz
+        right_transform.transform.translation.z = 0.0; 
         right_transform.transform.rotation.x = 0.0;
         right_transform.transform.rotation.y = 0.0;
         right_transform.transform.rotation.z = 0.0;

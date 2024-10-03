@@ -65,8 +65,6 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Transform:\n"<<geometry_msgs::msg::to_yaml(transform));
   RCLCPP_INFO_STREAM(node_.lock()->get_logger(),"Pose:\n"<<geometry_msgs::msg::to_yaml(pose));
 
-//  pose.header.frame_id="bla";
-//  pose.pose.position.x=0.2;
 
   goal.group_name = group_name;
   goal.ik_service_name = ik_service_name;
@@ -75,10 +73,10 @@ bool MoveToSkill::setGoal(RosActionNode::Goal &goal)
   goal.speed_scaling_topic = speed_scaling_topic;
   goal.scaling = scaling;
   goal.pose = pose;
-  goal.pipeline_id = pipeline_id;  // IMPORT FROM PARAM
-  goal.planner_id = planner_id; // IMPORT FROM PARAM  (BiTRRT)
-  goal.acceleration_scaling_factor = acceleration_scaling_factor; // IMPORT FROM PARAM
-  goal.velocity_scaling_factor = velocity_scaling_factor; // IMPORT FROM PARAM
+  goal.pipeline_id = pipeline_id;  
+  goal.planner_id = planner_id; 
+  goal.acceleration_scaling_factor = acceleration_scaling_factor; 
+  goal.velocity_scaling_factor = velocity_scaling_factor; 
 
 
 
